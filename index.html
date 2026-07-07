@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Expense Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <header class="app-header">
+      <h1>💰 Personal Expense Tracker</h1>
+      <p class="subtitle">Track. Manage. Understand your spending.</p>
+    </header>
+
+    <div class="main-grid">
+
+      <!-- FORM CARD -->
+      <section class="card form-card">
+        <h2 id="formTitle">Add New Expense</h2>
+        <form id="expenseForm" novalidate>
+          <input type="hidden" id="expenseId">
+
+          <div class="field">
+            <label for="title">Expense Title <span class="req">*</span></label>
+            <input type="text" id="title" placeholder="e.g. Lunch with friends" required>
+            <span class="error" id="err-title"></span>
+          </div>
+
+          <div class="field">
+            <label for="amount">Amount (BDT) <span class="req">*</span></label>
+            <input type="number" id="amount" placeholder="e.g. 250" min="0.01" step="0.01" required>
+            <span class="error" id="err-amount"></span>
+          </div>
+
+          <div class="field">
+            <label for="category">Category <span class="req">*</span></label>
+            <select id="category" required>
+              <option value="" disabled selected>Select category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Bills">Bills</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Others">Others</option>
+            </select>
+            <span class="error" id="err-category"></span>
+          </div>
+
+          <div class="field">
+            <label for="date">Expense Date <span class="req">*</span></label>
+            <input type="date" id="date" required>
+            <span class="error" id="err-date"></span>
+          </div>
+
+          <div class="field">
+            <label for="payment">Payment Method <span class="req">*</span></label>
+            <select id="payment" required>
+              <option value="" disabled selected>Select payment method</option>
+              <option value="Cash">Cash</option>
+              <option value="bKash">bKash</option>
+              <option value="Nagad">Nagad</option>
+              <option value="Card">Card</option>
+            </select>
+            <span class="error" id="err-payment"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="addBtn" class="btn btn-primary">Add Expense</button>
+            <button type="submit" id="updateBtn" class="btn btn-primary hidden">Update Expense</button>
+            <button type="button" id="resetBtn" class="btn btn-secondary">Reset Form</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- SUMMARY CARD -->
+      <section class="card summary-card">
+        <h2>Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="summary-label">Total Expenses</span>
+            <span class="summary-value" id="sumTotal">৳0.00</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Transactions</span>
+            <span class="summary-value" id="sumCount">0</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Highest Expense</span>
+            <span class="summary-value" id="sumHighest">৳0.00</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Lowest Expense</span>
+            <span class="summary-value" id="sumLowest">৳0.00</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Average Expense</span>
+            <span class="summary-value" id="sumAverage">৳0.00</span>
+          </div>
+        </div>
+
+        <h3 class="chart-title">Spending by Category</h3>
+        <div class="chart-wrap">
+          <canvas id="pieChart" width="220" height="220"></canvas>
+          <div id="chartLegend" class="chart-legend"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TABLE CARD -->
+    <section class="card table-card">
+      <div class="table-header">
+        <h2>All Expenses</h2>
+        <div class="table-actions">
+          <input type="text" id="searchInput" placeholder="🔍 Search by title...">
+          <button id="exportBtn" class="btn btn-secondary">Export CSV</button>
+          <button id="clearAllBtn" class="btn btn-danger">Clear All</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="expenseTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Amount (BDT)</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Payment</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="expenseTableBody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+        <p id="emptyMessage" class="empty-message hidden">No expenses yet. Add your first expense above!</p>
+      </div>
+    </section>
+
+    <footer class="app-footer">
+      <p>Data is saved locally in your browser (Local Storage).</p>
+    </footer>
+  </div>
+
+  <!-- Custom confirm dialog -->
+  <div id="confirmOverlay" class="overlay hidden">
+    <div class="confirm-box">
+      <p id="confirmMessage">Are you sure?</p>
+      <div class="confirm-actions">
+        <button id="confirmYes" class="btn btn-danger">Yes, Delete</button>
+        <button id="confirmNo" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
